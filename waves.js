@@ -89,5 +89,38 @@ functoin lineenter(d, i){
   update_spaceing()
 }
 
+function update_spacing()
+{
+  var th = foobar.spacing * n;
+  var hscale = d3.scale.linear()
+	.domain([0, n])
+	.range([0, sh])
+  d3.selectAll("g.line path")
+	.attr("transform", function(d, i){
+	//return "translate(" + [0, th - spacing * d.index] + ");"
+	return "translate(" + [0, 10+sh/2 + th / 2 - foobar.spacing * d.index] + ")";
+	})
+}
+
+var svg = d3.select("svg")
+  .append("svg:g")
+
+var line = svg.selectAll("g.line")
+    .data(lines)
+  .enter().append("svg:g")
+    .attr("class", "line")
+    .each(lineenter);
+/*
+ *var opcacity = d3.scale.linear()
+   .domain([0, n])
+   .range([1, .4])
+ * */
+
+d3.selectAll("g.line path")
+  .attr("d", function(d,i){
+    return line_maker(d)
+  })
+  .attr("stroke", function(d,i){ return color(d.index); })
+  .attr("opacity", foobar.opaciry);
 
 
