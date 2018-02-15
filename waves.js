@@ -37,13 +37,57 @@ var color_scale = function(i){
 /*
 var color = d3.scale.linear()
   .domain([0, n])
-//.
-  .interpolate()
-  .range()
+//.interpolate(d3.interpolateRgb)
+  .interpolate(d3,ubterpolateHsl)
+  .range(['#D40067', '#4DA9F'])
 */
 var color = color_scale
 
-var sw = tributary.sw * 1.1;//
-//
-//
+var sw = tributary.sw * 1.1;//parseInt(d3.slect("svg").style("width"))
+//sw += .1 * sw
+var sh = tributary.sh;//parseInt(d3.select("svg").style("height"))
+
+var lines = [ ];
+for(i in d3.range(n)){
+  var data = d3.range(m)
+	lines.push({
+	  index: i,
+	  data: data
+	})
+}
+
+var xscale = d3.scale.linear()
+  .domain([0, m])
+  .range([-.1*sw, sw])
+
+function line_maker( data ){
+  var freq = foobar.omega * data.index
+  var svgline = d3.svg.line()
+	.x(function(d, i){
+	  return xscale(d);
+	})
+	.y(function(d, i){
+	  var th = d/m * foobar.theta
+	  var ph = (n-data.index) * foobar.phase
+	  var y = foobar.amplitude * Math.sin(freq * th + ph);
+	})
+	.interpolate("basis")
+	//.interpolate("linear")
+  return svgline(data.data);
+}
+
+functoin lineenter(d, i){
+  d3.select(this).selectAll("path.path")
+	.data([d])
+	.enter()
+  .append("svg:path")
+	.attr("class", "path")
+	.attr("stroke-width", foobar.stroke_width)
+	//.attr("stroke-width", function(e, i){ return e.width;})
+	.attr("stroke", "#fff")
+	.attr("fill", "none")
+  update_spaceing()
+}
+
+
 
